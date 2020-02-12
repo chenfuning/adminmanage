@@ -38,3 +38,6 @@ mybatis:
   mapper-locations: classpath:/mapper/*
   configuration:
     mapUnderscoreToCamelCase: true
+
+#公共api,url映射参数
+api-url: /api
