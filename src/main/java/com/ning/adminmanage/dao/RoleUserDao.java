@@ -12,4 +12,7 @@ import java.util.List;
 @Mapper
 public interface RoleUserDao {
 
+
+    @Insert("insert into sys_role_user(userId, roleId) values(#{userId}, #{roleId})")
+    void save(SysRoleUser sysRoleUser);
 }
