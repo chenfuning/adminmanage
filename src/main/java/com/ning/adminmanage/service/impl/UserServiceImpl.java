@@ -39,4 +39,50 @@ public class UserServiceImpl implements UserService {
         }
         return Results.failure();
     }
+
+    @Override
+    public SysUser getUserByPage(String phone) {
+        return userDao.getUserByPage(phone);
+    }
+
+    @Override
+    public SysUser getUserById(Long id) {
+        return userDao.getUserById(id);
+    }
+
+    @Override
+    public Results<SysUser> updateUser(UserDto userDto, Integer roleId) {
+        if(roleId!=null) {
+            //修改user表
+            userDao.updateUser(userDto);
+            //修改roleuser表或者保存（看是否设置了角色）
+            SysRoleUser sysRoleUser = new SysRoleUser();
+            sysRoleUser.setUserId(userDto.getId().intValue());
+            sysRoleUser.setRoleId(roleId);
+            if (roleUserDao.getSysRoleUserByUserId(userDto.getId().intValue()) != null) {
+                //角色表有记录就采用更新的方法
+                roleUserDao.updateRoleUser(sysRoleUser);
+            } else {
+                roleUserDao.save(sysRoleUser);
+            }
+            return Results.success();
+        }else{
+        return Results.failure();
+        }
+    }
+
+    @Override
+    public int deleteUser(Long id) {
+        //删除用户表
+        int delResult =userDao.deleteUser(id.intValue());
+        //删除roleuser表
+        roleUserDao.deleteRoleUserByUserId(id.intValue());
+        return  delResult;
+    }
+
+    @Override
+    public Results<SysUser> getUserByFuzzyUserName(String username,Integer offset, Integer limit) {
+        //提供中的条数，和具体的数据
+        return Results.success(userDao.getUserByFuzzyUsername(username).intValue(),userDao.getUserByFuzzyUsernameByPage(username,offset,limit));
+    }
 }

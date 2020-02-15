@@ -1,5 +1,6 @@
 package com.ning.adminmanage.dao;
 
+import com.ning.adminmanage.dto.UserDto;
 import com.ning.adminmanage.model.SysUser;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
@@ -32,4 +33,32 @@ public interface UserDao {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("insert into sys_user(username, password, nickname, headImgUrl, phone, telephone, email, birthday, sex, status, createTime, updateTime) values(#{username}, #{password}, #{nickname}, #{headImgUrl}, #{phone}, #{telephone}, #{email}, #{birthday}, #{sex}, #{status}, now(), now())")
     int save(SysUser user);
+    @Select("select *from sys_user t where t.telephone=#{telephone}")
+    SysUser getUserByPage(String phone);
+
+    @Select("select *from sys_user t where t.id=#{id}")
+    SysUser getUserById(Long id);
+
+    int  updateUser(UserDto userDto);
+    @Delete("delete from sys_user where id = #{id}")
+    int deleteUser(int id);
+    /******************模糊查询 start*******************************************/
+    /**
+     * 查询该模糊匹配到的用户数量
+     * @param username
+     * @return
+     */
+    @Select("select count(*) from sys_user t where t.username like '%${username}%'")
+    Long getUserByFuzzyUsername(@Param("username")String username);
+
+    /**
+     * 查询该模糊匹配到的具体数据
+     * @param username
+     * @param offset
+     * @param limit
+     * @return
+     */
+    @Select("select * from sys_user t where t.username like '%${username}%'  limit #{startPosition},#{limit}")
+    List<SysUser> getUserByFuzzyUsernameByPage(@Param("username")String username,@Param("startPosition")Integer offset, @Param("limit")Integer limit);
+    /******************模糊查询 end*******************************************/
 }
