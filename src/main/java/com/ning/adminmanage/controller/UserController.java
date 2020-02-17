@@ -120,6 +120,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 模糊查询用户
+     * @param pageTableRequest
+     * @param username
+     * @return
+     */
     @GetMapping("/findUserByFuzzyUserName")
     @ResponseBody
     public Results<SysUser> findUserByFuzzyUserName(PageTableRequest pageTableRequest, String username){

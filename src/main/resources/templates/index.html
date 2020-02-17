@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>后台登录-X-admin2.2</title>
         <header th:replace="header::html"></header>
+
     </head>
     <body class="index">
         <!-- 顶部开始 -->
@@ -66,9 +67,9 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('统计页面','welcome1.html')">
+                                <a onclick="xadmin.add_tab('角色管理','/api/getPage?pageName=role/role-list')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>统计页面</cite></a>
+                                    <cite>角色管理</cite></a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('会员列表(静态表格)','member-list.html')">

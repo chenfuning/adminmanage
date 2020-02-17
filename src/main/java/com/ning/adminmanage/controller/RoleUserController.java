@@ -24,4 +24,5 @@ public class RoleUserController {
         log.info("RoleUserController.getRoleUserByUserId: param="+userId);
         return roleUserService.getSysRoleUserByUserId(userId);
     }
+
 }

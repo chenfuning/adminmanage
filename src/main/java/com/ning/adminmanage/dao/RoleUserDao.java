@@ -22,4 +22,6 @@ public interface RoleUserDao {
     int updateRoleUser(SysRoleUser sysRoleUser);
     @Delete("delete from sys_role_user where userId=#{userId}")
     int deleteRoleUserByUserId(int userId);
+    @Select("select * from sys_role_user t where t.roleId = #{roleId}")
+    List<SysRoleUser> listAllSysRoleUserByRoleId(Integer roleId);
 }
