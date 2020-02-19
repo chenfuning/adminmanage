@@ -4,8 +4,20 @@ import com.alibaba.fastjson.JSONArray;
 import com.ning.adminmanage.base.result.Results;
 import com.ning.adminmanage.model.SysPermission;
 
+import javax.xml.transform.Result;
+
 public interface PermissionService {
     Results<JSONArray> listAllPermission();
 
     Results<SysPermission> listByRoleId(Integer roleId);
+
+    Results<SysPermission> getMenuAll();
+
+    Results save(SysPermission sysPermission);
+
+    SysPermission getSysPermissionById(Integer id);
+
+    Results updateSysPermission(SysPermission permission);
+
+    Results delete(Integer id);
 }
