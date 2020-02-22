@@ -34,15 +34,15 @@
 
                     <div class="layui-card-header">
                         <button class="layui-btn layui-btn-danger" onclick="delAll()" permission="sys:user:del"><i class="layui-icon"></i>批量删除</button>
-                        <button class="layui-btn" onclick="xadmin.open('添加用户','/user/add')"><i class="layui-icon"></i>添加</button>
+                        <button class="layui-btn" onclick="xadmin.open('添加用户','/user/add')" permission="sys:user:add"><i class="layui-icon"></i>添加</button>
                     </div>
 
                     <div class="layui-card-body ">
                         <table  id="demo" class="layui-hide" lay-filter="member"></table>
                     </div>
                         <script type="text/html" id="toolbarDemo">
-                            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="edit" permission="sys:user:edit">编辑</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" permission="sys:user:del">删除</a>
                         </script>
 
 
@@ -78,7 +78,10 @@
                         ,{field: 'birthday', title: '生日'}
                         ,{fixed: 'right', title:'操作',toolbar:'#toolbarDemo',  width:150}//开启头部工具栏，并为其绑定左侧模板
                     ]
-                ]
+                ],
+                done:function(){
+                    checkPermission()
+                }
             });
             //监听工具条
             table.on('tool(member)', function(obj){
@@ -161,13 +164,8 @@
                 });
                 return false;
             });
-
-
+            checkPermission();;
         });
-
-
-
-
 
     </script>
 

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -63,5 +64,19 @@ public class PermissionServiceImpl implements PermissionService {
         permissionDao.deleteById(id);
         permissionDao.deleteByParentId(id);
         return Results.success();
+    }
+
+    @Override
+    public Results getMenu(Long userId) {
+        List<SysPermission> datas=permissionDao.listByUserId(userId);
+        //动态菜单不显示按钮，把按钮的数据即type==2的去除,留下type等于1的。
+        datas=datas.stream().filter(p->p.getType().equals(1)).collect(Collectors.toList());
+
+        JSONArray array=new JSONArray();
+        log.info(getClass().getName()+".setPermissionTree(???)");
+
+        //构建了一个JSONarray 菜单树
+        TreeUtils.setPermissionsTree(0,datas, array);
+        return Results.success(array);
     }
 }

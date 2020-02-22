@@ -60,5 +60,8 @@ public interface UserDao {
      */
     @Select("select * from sys_user t where t.username like '%${username}%'  limit #{startPosition},#{limit}")
     List<SysUser> getUserByFuzzyUsernameByPage(@Param("username")String username,@Param("startPosition")Integer offset, @Param("limit")Integer limit);
+
+    @Update("update sys_user t set t.password = #{password} where t.id = #{id}")
+    int changePassword(@Param("id")Long id, @Param("password")String password);
     /******************模糊查询 end*******************************************/
 }

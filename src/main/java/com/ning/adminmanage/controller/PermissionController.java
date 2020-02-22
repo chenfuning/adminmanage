@@ -6,6 +6,7 @@ import com.ning.adminmanage.model.SysPermission;
 import com.ning.adminmanage.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class PermissionController {
      */
     @RequestMapping(value = "/listAllPermission", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:query')")
     public Results<JSONArray> listAllPermission() {
         return permissionService.listAllPermission();
     }
@@ -35,6 +37,7 @@ public class PermissionController {
      */
     @GetMapping("/menuAll")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:query')")
     public Results getMenuAll(){
         return permissionService.getMenuAll();
     }
@@ -46,6 +49,7 @@ public class PermissionController {
     }
     @PostMapping("/add")
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     public Results savePermission(@RequestBody SysPermission sysPermission){
         return permissionService.save(sysPermission);
     }
@@ -57,6 +61,7 @@ public class PermissionController {
     }
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:edit')")
     public Results updatePermission(@RequestBody  SysPermission permission) {
         return permissionService.updateSysPermission(permission);
     }
@@ -68,8 +73,14 @@ public class PermissionController {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
+    @PreAuthorize("hasAuthority('sys:menu:del')")
     public Results deletePermission(SysPermission sysPermission) {
         return permissionService.delete(sysPermission.getId());
     }
 
+    @RequestMapping(value = "/menu", method = RequestMethod.GET)
+    @ResponseBody
+    public Results getMenu(Long userId) {
+        return permissionService.getMenu(userId);
+    }
 }

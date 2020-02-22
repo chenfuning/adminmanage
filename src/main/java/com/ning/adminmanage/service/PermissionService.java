@@ -20,4 +20,11 @@ public interface PermissionService {
     Results updateSysPermission(SysPermission permission);
 
     Results delete(Integer id);
+
+    /**
+     * 获取动态菜单的数据
+     * @param userId
+     * @return
+     */
+    Results getMenu(Long userId);
 }

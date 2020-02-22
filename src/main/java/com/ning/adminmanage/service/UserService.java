@@ -58,4 +58,8 @@ public interface UserService {
      * @return
      */
     Results<SysUser> getUserByFuzzyUserName(String username,Integer offset, Integer limit);
+
+    SysUser getUser(String username);
+
+    Results changePassword(String username, String oldPassword, String newPassword);
 }

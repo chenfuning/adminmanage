@@ -22,4 +22,16 @@ public interface PermissionDao {
     int deleteById(Integer id);
     @Delete("delete from sys_permission where parentId = #{parentId}")
     int deleteByParentId(Integer parentId);
+
+    /**
+     *  先通过userrole表根据userid找到roleid，再通过rolepermission表找到permission的具体数据
+     * @return
+     */
+    @Select("SELECT DISTINCT sp.*  " +
+            "FROM sys_role_user sru " +
+            "INNER JOIN sys_role_permission srp ON srp.roleId = sru.roleId " +
+            "LEFT JOIN sys_permission sp ON srp.permissionId = sp.id " +
+            "WHERE " +
+            "sru.userId = #{userId}")
+    List<SysPermission> listByUserId(@Param("userId")Long userId);
 }

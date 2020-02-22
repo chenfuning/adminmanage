@@ -8,6 +8,7 @@ import com.ning.adminmanage.model.SysRoleUser;
 import com.ning.adminmanage.model.SysUser;
 import com.ning.adminmanage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,5 +85,27 @@ public class UserServiceImpl implements UserService {
     public Results<SysUser> getUserByFuzzyUserName(String username,Integer offset, Integer limit) {
         //提供中的条数，和具体的数据
         return Results.success(userDao.getUserByFuzzyUsername(username).intValue(),userDao.getUserByFuzzyUsernameByPage(username,offset,limit));
+    }
+
+    @Override
+    public SysUser getUser(String username) {
+        return userDao.getUser(username);
+    }
+
+    @Override
+    public Results changePassword(String username, String oldPassword, String newPassword) {
+        SysUser u = userDao.getUser(username);
+
+        System.out.println(new BCryptPasswordEncoder().encode(oldPassword));
+        System.out.println(u.getPassword());
+        if (u == null) {
+            return Results.failure(1,"用户不存在");
+        }
+        //重新加密结果会不一样
+//        if (!new BCryptPasswordEncoder().encode(oldPassword).equals(u.getPassword())) {
+//            return Results.failure(1,"旧密码错误");
+//        }
+        userDao.changePassword(u.getId(), new BCryptPasswordEncoder().encode(newPassword));
+        return Results.success();
     }
 }

@@ -39,3 +39,6 @@ mybatis:
 
 #公共api,url映射参数
 api-url: /api
+
+server:
+  port: 8080
